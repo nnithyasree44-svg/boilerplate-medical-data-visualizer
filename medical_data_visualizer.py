@@ -21,7 +21,8 @@ df["gluc"] = (df["gluc"] > 1).astype(int)
 
 # 4. Draw categorical plot
 def draw_cat_plot():
-    # 5. Create DataFrame for categorical plot
+
+    # 5. Create DataFrame for cat plot
     df_cat = pd.melt(
         df,
         id_vars=["cardio"],
@@ -35,7 +36,7 @@ def draw_cat_plot():
         ]
     )
 
-    # 6. Group and reformat the data
+    # 6. Group and reformat data
     df_cat = (
         df_cat
         .groupby(["cardio", "variable", "value"])
@@ -43,13 +44,10 @@ def draw_cat_plot():
         .reset_index(name="total")
     )
 
-    # Rename column
-    df_cat = df_cat.rename(columns={"variable": "category"})
-
     # 7. Create categorical plot
     cat_plot = sns.catplot(
         data=df_cat,
-        x="category",
+        x="variable",
         y="total",
         hue="value",
         col="cardio",
@@ -66,6 +64,7 @@ def draw_cat_plot():
 
 # 10. Draw heat map
 def draw_heat_map():
+
     # 11. Clean the data
     df_heat = df[
         (df["ap_lo"] <= df["ap_hi"]) &
